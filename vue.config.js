@@ -1,16 +1,17 @@
 module.exports = {
-    baseUrl: './',
+    publicPath: '/admin',
     assetsDir: 'static',
     productionSourceMap: false,
-    // devServer: {
-    //     proxy: {
-    //         '/api':{
-    //             target:'http://jsonplaceholder.typicode.com',
-    //             changeOrigin:true,
-    //             pathRewrite:{
-    //                 '/api':''
-    //             }
-    //         }
-    //     }
-    // }
-}
+    devServer: {
+        port:10001,
+        proxy: {
+            '/api':{
+                target:'http://112.126.70.15:8081',
+                changeOrigin:true,
+                pathRewrite:{
+                    '^/api':'/'
+                }
+            }
+        }
+    }
+};

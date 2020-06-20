@@ -1,117 +1,228 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-
 Vue.use(Router);
 
 export default new Router({
+    base:'/admin',
+    mode:'history',
     routes: [
         {
             path: '/',
-            redirect: '/dashboard'
+            redirect: '/MyInformation',
         },
         {
             path: '/',
             component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),
-            meta: { title: '自述文件' },
+            meta: { title: '首页框架' },
             children: [
+
                 {
-                    path: '/dashboard',
-                    component: () => import(/* webpackChunkName: "dashboard" */ '../components/page/Dashboard.vue'),
-                    meta: { title: '系统首页' }
+                    path:'/Backup',
+                    component:() => import("../components/page/Backup.vue"),
+                    meta:{title: '数据备份与还原'},
+                },
+
+                {
+                    path: '/SystemUser',
+                    component: () => import(/* webpackChunkName: "permission" */ '../components/page/SystemUser.vue'),
+                    meta: { title: '系统用户管理' ,permission: true}
+                },
+
+
+                {
+                    path:'/Backup',
+                    component:() => import("../components/page/Backup.vue"),
+                    meta: { title: '数据备份与还原' }
+                },
+                //企业招聘管理
+                {
+                    path:'/CompanyRecruitment',
+                    component:() => import("../components/page/CompanyRecruitment.vue"),
+                    meta:{title:'企业招聘管理'}
                 },
                 {
-                    path: '/icon',
-                    component: () => import(/* webpackChunkName: "icon" */ '../components/page/Icon.vue'),
-                    meta: { title: '自定义图标' }
+                    path:'/custom',
+                    component:() => import("../components/page/personInfo.vue"),
+                    meta: { title: '用户管理' }
+                },
+
+                {
+                    path:'/jobHunting',
+                    component:() => import("../components/page/jobHunting.vue"),
+                    meta: { title: '求职管理' }
+                },
+                //专利管理
+                {
+                    path:'/patent',
+                    component:() => import("../components/page/patent.vue"),
+                    meta: { title: '专利管理' }
+                },
+                //企业详细信息
+                {
+                    path:'/Companydetail/:id',
+                    props:true,
+                    component:() => import("../components/page/Companydetail.vue"),
+                    meta: { title: '企业信息详情' }
+                },{
+                    path:'/PersonDetail/:id',
+                    props:true,
+                    component:() => import("../components/page/PersonDetail.vue"),
+                    meta: { title: '个人信息详情' }
                 },
                 {
-                    path: '/table',
-                    component: () => import(/* webpackChunkName: "table" */ '../components/page/BaseTable.vue'),
-                    meta: { title: '基础表格' }
+                    path:'/Case',
+                    component:() => import("../components/page/Case.vue"),
+                    meta: { title: '案件管理' }
                 },
                 {
-                    path: '/tabs',
-                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
-                    meta: { title: 'tab选项卡' }
+                    path:'/AgencyInfor',
+                    component:() => import("../components/page/AgencyInfor.vue"),
+                    meta: { title: '代理机构信息管理' }
                 },
                 {
-                    path: '/form',
-                    component: () => import(/* webpackChunkName: "form" */ '../components/page/BaseForm.vue'),
-                    meta: { title: '基本表单' }
+                    path:'/AgencyUser/:id',
+                    props:true,
+                    component:() => import("../components/page/AgencyUser.vue"),
+                    meta: { title: '代理机构用户信息' }
                 },
                 {
-                    // 富文本编辑器组件
-                    path: '/editor',
-                    component: () => import(/* webpackChunkName: "editor" */ '../components/page/VueEditor.vue'),
-                    meta: { title: '富文本编辑器' }
+                    path:'/Permission',
+                    component:()=>import("../components/page/Permission.vue"),
+                    meta:{title:'权限管理'},
                 },
                 {
-                    // markdown组件
-                    path: '/markdown',
-                    component: () => import(/* webpackChunkName: "markdown" */ '../components/page/Markdown.vue'),
-                    meta: { title: 'markdown编辑器' }
+                    path:'/MyInformation',
+                    component:()=>import("../components/page/MyInformation.vue"),
+                    meta:{title:'我的资料'},
+
                 },
                 {
-                    // 图片上传组件
-                    path: '/upload',
-                    component: () => import(/* webpackChunkName: "upload" */ '../components/page/Upload.vue'),
-                    meta: { title: '文件上传' }
+                    path:'/News',
+                    component:()=>import("../components/page/News.vue"),
+                    meta:{title:'新闻管理'},
+
                 },
                 {
-                    // vue-schart组件
-                    path: '/charts',
-                    component: () => import(/* webpackChunkName: "chart" */ '../components/page/BaseCharts.vue'),
-                    meta: { title: 'schart图表' }
+                    path:'/addNews',
+                    component:()=>import("../components/page/AddNews.vue"),
+                    meta:{title:'添加新闻'},
+
                 },
                 {
-                    // 拖拽列表组件
-                    path: '/drag',
-                    component: () => import(/* webpackChunkName: "drag" */ '../components/page/DragList.vue'),
-                    meta: { title: '拖拽列表' }
+                    path:'/NewsModify/:id',
+                    props:true,
+                    component:()=>import("../components/page/NewsModify.vue"),
+                    meta:{title:'修改新闻'},
+                },
+
+                {
+                    path:'/statisticManage',
+                    component:()=>import("../components/page/statisticManage.vue"),
+                    meta:{title:'数据统计'},
                 },
                 {
-                    // 拖拽Dialog组件
-                    path: '/dialog',
-                    component: () => import(/* webpackChunkName: "dragdialog" */ '../components/page/DragDialog.vue'),
-                    meta: { title: '拖拽弹框' }
+                    path:'/annualFee',
+                    component:()=>import("../components/page/annualFeeManage.vue"),
+                    meta:{title:'年费管理'},
                 },
                 {
-                    // 国际化组件
-                    path: '/i18n',
-                    component: () => import(/* webpackChunkName: "i18n" */ '../components/page/I18n.vue'),
-                    meta: { title: '国际化' }
+                    path:'/Product',
+                    component:()=>import("../components/page/productManage.vue"),
+                    meta:{title:'首页产品管理'},
                 },
                 {
-                    // 权限页面
-                    path: '/permission',
-                    component: () => import(/* webpackChunkName: "permission" */ '../components/page/Permission.vue'),
-                    meta: { title: '权限测试', permission: true }
+                    path:'/dateTimePicker',
+                    component:()=>import("../components/common/dateTimePicker.vue"),
+                    meta:{title:'时间选择器'},
+                },
+
+                {
+
+                    path:'/NewsDetail/:id/:type',
+                    component:()=>import("../components/page/NewsDetail.vue"),
+                    meta:{title:'新闻详情'},
+
+                },
+
+
+                {   path:'/agencyHome/:id',
+                    props:true,
+                    component:()=>import("../components/page/agencyHome.vue"),
+                    meta:{title:'代理机构首页'},
+                },
+
+                {   path:'/chat',
+                    component:()=>import("../components/page/chat.vue"),
+                    meta:{title:'聊天管理'},
+                },
+                {   path:'/patentTransfer/',
+                    component:()=>import("../components/page/PatentTranfer.vue"),
+                    meta:{title:'专利转让管理'},
                 },
                 {
-                    path: '/404',
-                    component: () => import(/* webpackChunkName: "404" */ '../components/page/404.vue'),
-                    meta: { title: '404' }
+                    path:'/PatentPeople/:id',
+                    props:true,
+                    component:()=>import("../components/page/PatentPerson.vue"),
+                    meta:{title:'专利相关人员' },
                 },
                 {
-                    path: '/403',
-                    component: () => import(/* webpackChunkName: "403" */ '../components/page/403.vue'),
-                    meta: { title: '403' }
+                    path:'/caseDetail/:id/:type',
+                    props:true,
+                    component:()=>import("../components/page/CaseDetail.vue"),
+                    meta:{title:'案件详情' },
                 },
                 {
-                    path: '/donate',
-                    component: () => import(/* webpackChunkName: "donate" */ '../components/page/Donate.vue'),
-                    meta: { title: '支持作者' }
-                }
+                    path:'/chatStatistic',
+                    component:()=>import("../components/page/chatStatistic.vue"),
+                    meta:{title:'聊天数据统计' },
+                },
+                {
+                    path:'/SystemConfiguration',
+                    component:()=>import("../components/page/SystemConfiguration.vue"),
+                    meta:{title:'系统配置管理' },
+                },
+                {
+                    path:'/AboutUs',
+                    component:()=>import("../components/page/AboutUs.vue"),
+                    meta:{title:'关于我们'},
+
+                },
+                {
+                    path:'/checkEnterprise/:id',
+                    props:true,
+                    component:()=>import("../components/page/CheckEnterprise.vue"),
+                    meta:{title:'企业认证'},
+
+                },
+                {
+                    path:'/advertisement',
+                    props:true,
+                    component:()=>import("../components/page/advertisement.vue"),
+                    meta:{title:'广告管理'},
+                },
+                {
+                    path:'/agencyEarn/:id',
+                    props:true,
+                    component:()=>import("../components/page/agencyearn.vue"),
+                    meta:{title:'代理机构案件收益'},
+                },
+
+
+
             ]
         },
         {
-            path: '/login',
-            component: () => import(/* webpackChunkName: "login" */ '../components/page/Login.vue'),
-            meta: { title: '登录' }
+            path:'/getPassword',
+            component:()=>import("../components/page/getpassword.vue"),
+            meta:{title:'找回密码'},
         },
         {
-            path: '*',
-            redirect: '/404'
-        }
+            path: '/login',
+            component: () => import('../components/page/Login.vue'),
+            meta: { title: '登录' }
+        },
     ]
 });
+
+
+

@@ -2,16 +2,23 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import ElementUI from 'element-ui';
+import Cookies from 'js-cookie'
 import VueI18n from 'vue-i18n';
 import { messages } from './components/common/i18n';
-import 'element-ui/lib/theme-chalk/index.css'; // 默认主题
-// import './assets/css/theme-green/index.css'; // 浅绿色主题
+import 'element-ui/lib/theme-chalk/index.css';
 import './assets/css/icon.css';
 import './components/common/directives';
 import 'babel-polyfill';
-
+import service from './utils/request';
+import quillEditor from 'vue-quill-editor'
+Vue.use(quillEditor);
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+import {getToken} from './utils/Func'
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
+Vue.use(Cookies);
 Vue.use(ElementUI, {
     size: 'small'
 });
@@ -20,29 +27,60 @@ const i18n = new VueI18n({
     messages
 });
 
-//使用钩子函数对路由进行权限跳转
+Vue.prototype.$http = service;
+// 使用 router.beforeEach 注册一个全局前置守卫，判断用户是否登陆
+
 router.beforeEach((to, from, next) => {
-    document.title = `${to.meta.title} | vue-manage-system`;
-    const role = localStorage.getItem('ms_username');
-    if (!role && to.path !== '/login') {
-        next('/login');
-    } else if (to.meta.permission) {
-        // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已
-        role === 'admin' ? next() : next('/403');
-    } else {
-        // 简单的判断IE10及以下不进入富文本编辑器，该组件不兼容
-        if (navigator.userAgent.indexOf('MSIE') > -1 && to.path === '/editor') {
-            Vue.prototype.$alert('vue-quill-editor组件不兼容IE10及以下浏览器，请使用更高版本的浏览器查看', '浏览器不兼容通知', {
-                confirmButtonText: '确定'
-            });
+    if (to.path === '/login') {
+        next();
+
+    }
+    else if(to.path === '/getPassword'){
+        next();
+    }
+    else {
+        let token = getToken(); // js中      空字符串和0都是false
+        if (!token) {
+            next('/login');
         } else {
             next();
         }
     }
 });
+//时间戳转换时间
+Vue.prototype.dateString = function(timestamp) {
+    if(!timestamp){
+        return '暂无'
+    }
+    timestamp = Number(timestamp);
+    let date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    let Y = date.getFullYear() + '-';
+    let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    let D = (date.getDate() < 10 ? '0'+date.getDate() : date.getDate())+' ';
+    let  h = date.getHours() ;
+    if(h <10){
+        h = '0'+ h+':';
+    }
+    else {
+        h = h+':'
+    }
+    let  m = date.getMinutes();
+    if(m < 10){
+        m = '0' + m +':';
+    }
+    else {
+        m = m+':';
+    }
+    let s = date.getSeconds();
+    if(s <10){
+        s = '0'+s;
+    }
 
+    return Y+M+D+h+m+s;
+};
 new Vue({
+    service,
     router,
     i18n,
-    render: h => h(App)
+    render: h => h(App),
 }).$mount('#app');
